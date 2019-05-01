@@ -27,6 +27,7 @@ app.get('/weather', getWeather);
  */
 function getLocation(request, response) {
   try {
+    let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GEOCODE_API_KEY}`;
     const query = request.query.data;
     const geoData = require('./data/geo.json');
 
@@ -39,8 +40,8 @@ function getLocation(request, response) {
 
 function getWeather(request, response) {
   try {
-    let weatherData = require('./data/darksky.json');
-
+    //let weatherData = require('./data/darksky.json');
+    let weatherData = `https://maps.googleapis.com/maps/api/geocode/json?query=YOUR_API_KEY`;
     let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
     response.send(weatherObjects);
   }
