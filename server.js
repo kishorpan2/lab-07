@@ -28,7 +28,7 @@ app.get('/weather', getWeather);
  * Callback Functions
  */
 function getLocation(request, response) {
-  try {
+  // try {
     let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GEOCODE_API_KEY}`;
     const query = request.query.data;
     //const geoData = require('./data/geo.json');
@@ -40,10 +40,10 @@ function getLocation(request, response) {
         console.log(apiResponse.body);
         response.send(location);
       });
-  }
-  catch (error) {
-    response.status(500).send('Status 500: I done messed up.');
-  }
+  // }
+  // catch (error) {
+  //   response.status(500).send('Status 500: I done messed up.');
+  // }
 }
 
 function getWeather(request, response) {
