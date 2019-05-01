@@ -6,9 +6,11 @@
 require('dotenv').config();
 
 const express = require('express');
-const app = express();
 const cors = require('cors');
+const superagent = require('superagent');
+
 const port = process.env.PORT || 3000;
+const app = express();
 
 app.use(cors());
 
@@ -27,10 +29,16 @@ app.get('/weather', getWeather);
  */
 function getLocation(request, response) {
   try {
+    let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GEOCODE_API_KEY}`;
     const query = request.query.data;
-    const geoData = require('./data/geo.json');
+    //const geoData = require('./data/geo.json');
 
-    response.send(new Location(query, geoData.results[0]));
+    //response.send(new Location(query, geoData.results[0]));
+    superagent.get(geocodeURL)
+      .end((err, apiResponse)=>{
+        const location = new Location(query,apiResponse.body);
+        response.send(location);
+      });
   }
   catch (error) {
     response.status(500).send('Status 500: I done messed up.');
@@ -39,8 +47,8 @@ function getLocation(request, response) {
 
 function getWeather(request, response) {
   try {
-    let weatherData = require('./data/darksky.json');
-
+    //let weatherData = require('./data/darksky.json');
+    let weatherData = `https://maps.googleapis.com/maps/api/geocode/json?query=YOUR_API_KEY`;
     let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
     response.send(weatherObjects);
   }
