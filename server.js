@@ -3,11 +3,11 @@
 /****************
  * Configure Middleware
  */
-require('dotenv').config();
-
 const express = require('express');
 const cors = require('cors');
 const superagent = require('superagent');
+
+require('dotenv').config();
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -47,12 +47,12 @@ function getWeather(request, response) {
     console.log(request.query.data);
     let latitude = request.query.data.latitude;
     let longitude = request.query.data.longitude;
-    let weatherURL = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${longitude},${latitude}`;
+    let weatherURL = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${latitude},${longitude}`;
 
     return superagent.get(weatherURL)
       .end((err, apiResponse) => {
-        console.log(apiResponse.body.daily);
-        // response.send(apiResponse.body.daily.data.map((day) => new Weather(day)))
+        console.log(apiResponse.body.daily.data[0]);
+        response.send(apiResponse.body.daily.data.map((day) => new Weather(day)))
       });
 
   } catch(error) { 
@@ -92,7 +92,7 @@ function Location(query, data) {
 
 function Weather(day) {
   this.forecast = day.summary;
-  this.time = new Date(day.time).toDateString();
+  this.time = new Date(day.time * 1000).toDateString();
 }
 
 function Event(event) {
