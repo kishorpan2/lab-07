@@ -6,9 +6,11 @@
 require('dotenv').config();
 
 const express = require('express');
-const app = express();
 const cors = require('cors');
+const superagent = require('superagent');
+
 const port = process.env.PORT || 3000;
+const app = express();
 
 app.use(cors());
 
@@ -29,9 +31,10 @@ function getLocation(request, response) {
   try {
     let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GEOCODE_API_KEY}`;
     const query = request.query.data;
-    const geoData = require('./data/geo.json');
+    //const geoData = require('./data/geo.json');
 
-    response.send(new Location(query, geoData.results[0]));
+    //response.send(new Location(query, geoData.results[0]));
+superagen
   }
   catch (error) {
     response.status(500).send('Status 500: I done messed up.');
