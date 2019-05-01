@@ -17,7 +17,7 @@ app.use(cors());
 
 
 /****************
- * Create Routes
+ * Routes
  */
 app.get('/location', getLocation);
 app.get('/weather', getWeather);
@@ -26,7 +26,7 @@ app.get('/events', getEvents);
 
 
 /****************
- * Callback Functions
+ * Handlers
  */
 function getLocation(request, response) {
   try {
@@ -71,9 +71,17 @@ function getEvents (request, response) {
   }
 }
 
+function handleError(err, req, res) {
+  console.error('ERROR:', err);
+
+  if (res) {
+    res.status(500).send('Status 500: I done messed up.');
+  }
+}
+
 
 /****************
- * Object Constructors
+ * Constructors
  */
 function Location(query, data) {
   this.search_query = query;
