@@ -46,7 +46,7 @@ function getWeather(request, response) {
   try {
     let latitude = request.query.data.latitude;
     let longitude = request.query.data.longitude;
-    let weatherURL = `https://api.darksky.net/forecast/${ process.env.WEATHER_API_KEY }/${ latitude },${ longitude }`;
+    let weatherURL = `https://api.darksky.net/forecast/${ process.env.WEATHER_API_KEY }/${ longitude },${ latitude }`;
 
     return superagent.get(weatherURL)
       .end((err, apiResponse) => response.send(apiResponse.body.daily.data.map((day) => new Weather(day))));
@@ -59,7 +59,7 @@ function getWeather(request, response) {
 
 function getEvents (request, response) {
   try {
-    let eventURL = ``;
+    let eventURL = `https://www.eventbriteapi.com/v3/events/search?location.longitude=${ longitude }&location.latitude=${ latitude }`;
 
     return superagent.get(eventURL)
       .set('Authorization', `Bearer ${ process.env.EVENTBRITE_API_KEY }`)
