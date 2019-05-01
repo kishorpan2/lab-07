@@ -37,6 +37,7 @@ function getLocation(request, response) {
     superagent.get(geocodeURL)
       .end((err, apiResponse)=>{
         const location = new Location(query,apiResponse.body);
+        console.log(apiResponse.body);
         response.send(location);
       });
   }
