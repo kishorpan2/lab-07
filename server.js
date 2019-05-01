@@ -20,7 +20,7 @@ app.use(cors());
  * Create Routes
  */
 app.get('/location', getLocation);
-app.get('/weather', getWeather);
+// app.get('/weather', getWeather);
 
 
 
@@ -30,36 +30,28 @@ app.get('/weather', getWeather);
 function getLocation(request, response) {
   try {
     const query = request.query.data;
-    let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${query}&key=${process.env.GEOCODE_API_KEY}`;
-    console.log();
-    //const geoData = require('./data/geo.json');
+    let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${ query }&key=${ process.env.GEOCODE_API_KEY }`;
 
-    //response.send(new Location(query, geoData.results[0]));
-    superagent.get(geocodeURL)
-      .end((err, apiResponse)=>{
-        console.log(apiResponse.body.results[0].geometry);
-        const location = new Location(query,apiResponse.body.results[0]);
-        response.send(location);
-      });
-  }
-  catch (error) {
-    console.error(error);
-    response.status(500).send(error);
-  }
-}
+    superagent.get(geocodeURL).end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
 
-function getWeather(request, response) {
-  try {
-    //let weatherData = require('./data/darksky.json');
-    let weatherData = `https://maps.googleapis.com/maps/api/geocode/json?query=YOUR_API_KEY`;
-    let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
-    response.send(weatherObjects);
-  }
-  catch(error) { 
+  } catch (error) {
     console.log(error);
     response.status(500).send('Status 500: I done messed up.');
+    
   }
 }
+
+// function getWeather(request, response) {
+//   try {
+//     //let weatherData = require('./data/darksky.json');
+//     let weatherData = `https://maps.googleapis.com/maps/api/geocode/json?query=YOUR_API_KEY`;
+//     let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
+//     response.send(weatherObjects);
+//   } catch(error) { 
+//     console.log(error);
+//     response.status(500).send('Status 500: I done messed up.');
+//   }
+// }
 
 
 /****************
