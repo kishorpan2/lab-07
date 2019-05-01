@@ -20,7 +20,7 @@ app.use(cors());
  * Create Routes
  */
 app.get('/location', getLocation);
-app.get('/weather', getWeather);
+// app.get('/weather', getWeather);
 app.get('/events', getEvents);
 
 
@@ -33,7 +33,7 @@ function getLocation(request, response) {
     const query = request.query.data;
     let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${ query }&key=${ process.env.GEOCODE_API_KEY }`;
 
-    return superagent.get(geocodeURL)
+    superagent.get(geocodeURL)
       .end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
 
   } catch (error) {
@@ -46,9 +46,9 @@ function getWeather(request, response) {
   try {
     let latitude = request.query.data.latitude;
     let longitude = request.query.data.longitude;
-    let weatherURL = `https://api.darksky.net/forecast/${ process.env.WEATHER_API_KEY }/${ longitude },${ latitude }`;
+    let weatherURL = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${longitude},${latitude}`;
 
-    return superagent.get(weatherURL)
+    superagent.get(weatherURL)
       .end((err, apiResponse) => response.send(apiResponse.body.daily.data.map((day) => new Weather(day))));
 
   } catch(error) { 
@@ -59,16 +59,18 @@ function getWeather(request, response) {
 
 function getEvents (request, response) {
   try {
+    console.log(request.query.data);
     let latitude = request.query.data.latitude;
     let longitude = request.query.data.longitude;
-    let eventURL = `https://www.eventbriteapi.com/v3/events/search?location.longitude=${ longitude }&location.latitude=${ latitude }`;
+    let eventURL = `https://www.eventbriteapi.com/v3/events/search?location.longitude=${ longitude }&location.latitude=${ latitude }&location.within=25km&expand=venue`;
 
     return superagent.get(eventURL)
       .set('Authorization', `Bearer ${ process.env.EVENTBRITE_API_KEY }`)
       .end((err, apiResponse) => {
         console.log(apiResponse.body);
-        response.send(apiResponse.body);
+        response.send(apiResponse.body.events.map((event) => new Event(event)));
       });
+
   } catch(error) {
     console.log(error);
     response.status(500).send('Status 500: I done messed up.');
