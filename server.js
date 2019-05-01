@@ -32,7 +32,8 @@ function getLocation(request, response) {
     const query = request.query.data;
     let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${ query }&key=${ process.env.GEOCODE_API_KEY }`;
 
-    superagent.get(geocodeURL).end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
+    return superagent.get(geocodeURL)
+      .end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
 
   } catch (error) {
     console.log(error);
@@ -46,8 +47,9 @@ function getWeather(request, response) {
     let longitude = request.query.data.longitude;
     let weatherURL = `https://api.darksky.net/forecast/${ process.env.WEATHER_API_KEY }/${ latitude },${ longitude }`;
 
-    let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
-    response.send(weatherObjects);
+    return superagent.get(weatherURL)
+      .end((err, apiResponse) => response.send(apiResponse.body.daily.data.map((day) => new Weather(day))));
+
   } catch(error) { 
     console.log(error);
     response.status(500).send('Status 500: I done messed up.');
