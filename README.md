@@ -37,3 +37,15 @@ Start time: 10:30 am
 Finish time: 1pm
 
 Actual time needed to complete: 2.5 hours
+
+
+Number and name of feature: Feature 3 Weather
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 2pm
+
+Finish time: 2:40pm
+
+Actual time needed to complete: 40 minutes
+
