@@ -20,7 +20,7 @@ app.use(cors());
  * Create Routes
  */
 app.get('/location', getLocation);
-// app.get('/weather', getWeather);
+app.get('/weather', getWeather);
 
 
 
@@ -37,21 +37,21 @@ function getLocation(request, response) {
   } catch (error) {
     console.log(error);
     response.status(500).send('Status 500: I done messed up.');
-    
   }
 }
 
-// function getWeather(request, response) {
-//   try {
-//     //let weatherData = require('./data/darksky.json');
-//     let weatherData = `https://maps.googleapis.com/maps/api/geocode/json?query=YOUR_API_KEY`;
-//     let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
-//     response.send(weatherObjects);
-//   } catch(error) { 
-//     console.log(error);
-//     response.status(500).send('Status 500: I done messed up.');
-//   }
-// }
+function getWeather(request, response) {
+  try {
+    const query = request.query.data; 
+    let weatherURL = `https://api.darksky.net/forecast/${ process.env.WEATHER_API_KEY }/${ latitude },${ longitude }`;
+
+    let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
+    response.send(weatherObjects);
+  } catch(error) { 
+    console.log(error);
+    response.status(500).send('Status 500: I done messed up.');
+  }
+}
 
 
 /****************
