@@ -33,8 +33,7 @@ function getLocation(request, response) {
     const query = request.query.data;
     let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${ query }&key=${ process.env.GEOCODE_API_KEY }`;
 
-    return superagent.get(geocodeURL)
-      .end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
+    return superagent.get(geocodeURL).end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
 
   } catch (error) {
     console.log(error);
@@ -44,16 +43,11 @@ function getLocation(request, response) {
 
 function getWeather(request, response) {
   try {
-    console.log(request.query.data);
     let latitude = request.query.data.latitude;
     let longitude = request.query.data.longitude;
-    let weatherURL = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${latitude},${longitude}`;
+    let weatherURL = `https://api.darksky.net/forecast/${ process.env.WEATHER_API_KEY }/${ latitude },${ longitude }`;
 
-    return superagent.get(weatherURL)
-      .end((err, apiResponse) => {
-        console.log(apiResponse.body.daily.data[0]);
-        response.send(apiResponse.body.daily.data.map((day) => new Weather(day)))
-      });
+    return superagent.get(weatherURL).end((err, apiResponse) => response.send(apiResponse.body.daily.data.map((day) => new Weather(day))));
 
   } catch(error) { 
     console.log(error);
@@ -69,9 +63,7 @@ function getEvents (request, response) {
 
     return superagent.get(eventURL)
       .set('Authorization', `Bearer ${ process.env.EVENTBRITE_API_KEY }`)
-      .end((err, apiResponse) => {
-        response.send(apiResponse.body.events.map((event) => new Event(event)));
-      });
+      .end((err, apiResponse) => response.send(apiResponse.body.events.map((event) => new Event(event))));
 
   } catch(error) {
     console.log(error);
