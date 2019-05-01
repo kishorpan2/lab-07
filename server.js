@@ -20,7 +20,7 @@ app.use(cors());
  * Create Routes
  */
 app.get('/location', getLocation);
-// app.get('/weather', getWeather);
+app.get('/weather', getWeather);
 
 
 
@@ -32,26 +32,29 @@ function getLocation(request, response) {
     const query = request.query.data;
     let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${ query }&key=${ process.env.GEOCODE_API_KEY }`;
 
-    superagent.get(geocodeURL).end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
+    return superagent.get(geocodeURL)
+      .end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
 
   } catch (error) {
     console.log(error);
     response.status(500).send('Status 500: I done messed up.');
-    
   }
 }
 
-// function getWeather(request, response) {
-//   try {
-//     //let weatherData = require('./data/darksky.json');
-//     let weatherData = `https://maps.googleapis.com/maps/api/geocode/json?query=YOUR_API_KEY`;
-//     let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
-//     response.send(weatherObjects);
-//   } catch(error) { 
-//     console.log(error);
-//     response.status(500).send('Status 500: I done messed up.');
-//   }
-// }
+function getWeather(request, response) {
+  try {
+    let latitude = request.query.data.latitude;
+    let longitude = request.query.data.longitude;
+    let weatherURL = `https://api.darksky.net/forecast/${ process.env.WEATHER_API_KEY }/${ latitude },${ longitude }`;
+
+    return superagent.get(weatherURL)
+      .end((err, apiResponse) => response.send(apiResponse.body.daily.data.map((day) => new Weather(day))));
+
+  } catch(error) { 
+    console.log(error);
+    response.status(500).send('Status 500: I done messed up.');
+  }
+}
 
 
 /****************
