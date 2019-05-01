@@ -21,6 +21,7 @@ app.use(cors());
  */
 app.get('/location', getLocation);
 app.get('/weather', getWeather);
+app.get('/events', getEvents);
 
 
 
@@ -51,6 +52,15 @@ function getWeather(request, response) {
       .end((err, apiResponse) => response.send(apiResponse.body.daily.data.map((day) => new Weather(day))));
 
   } catch(error) { 
+    console.log(error);
+    response.status(500).send('Status 500: I done messed up.');
+  }
+}
+
+function getEvents (request, response) {
+  try {
+
+  } catch(event) {
     console.log(error);
     response.status(500).send('Status 500: I done messed up.');
   }
