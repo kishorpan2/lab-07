@@ -66,9 +66,10 @@ function getEvents (request, response) {
     return superagent.get(eventURL)
       .set('Authorization', `Bearer ${ process.env.EVENTBRITE_API_KEY }`)
       .end((err, apiResponse) => {
-
+        console.log(apiResponse.body);
+        response.send(apiResponse.body);
       });
-  } catch(event) {
+  } catch(error) {
     console.log(error);
     response.status(500).send('Status 500: I done messed up.');
   }
