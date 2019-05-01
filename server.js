@@ -68,7 +68,7 @@ function getEvents (request, response) {
       .set('Authorization', `Bearer ${ process.env.EVENTBRITE_API_KEY }`)
       .end((err, apiResponse) => {
         console.log(apiResponse.body.events);
-        // response.send(apiResponse.body.events.map((event) => new Event(event)));
+        response.send(apiResponse.body.events.map((event) => new Event(event)));
       });
 
   } catch(error) {
@@ -94,8 +94,8 @@ function Weather(day) {
 }
 
 function Event(event) {
-  this.link = event.link;
-  this.name = event.name;
+  this.link = event.url;
+  this.name = event.name.text;
   this.event_date = new Date(event.start.local).toDateString();
   this.summary = event.summary;
 }
