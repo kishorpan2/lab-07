@@ -34,7 +34,11 @@ function getLocation(request, response) {
     //const geoData = require('./data/geo.json');
 
     //response.send(new Location(query, geoData.results[0]));
-superagen
+    superagent.get(geocodeURL)
+      .end((err, apiResponse)=>{
+        const location = new Location(query,apiResponse.body);
+        response.send(location);
+      });
   }
   catch (error) {
     response.status(500).send('Status 500: I done messed up.');
