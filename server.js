@@ -59,7 +59,13 @@ function getWeather(request, response) {
 
 function getEvents (request, response) {
   try {
+    let eventURL = ``;
 
+    return superagent.get(eventURL)
+      .set('Authorization', `Bearer ${ process.env.EVENTBRITE_API_KEY }`)
+      .end((err, apiResponse) => {
+
+      });
   } catch(event) {
     console.log(error);
     response.status(500).send('Status 500: I done messed up.');
