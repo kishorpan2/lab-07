@@ -59,6 +59,8 @@ function getWeather(request, response) {
 
 function getEvents (request, response) {
   try {
+    let latitude = request.query.data.latitude;
+    let longitude = request.query.data.longitude;
     let eventURL = `https://www.eventbriteapi.com/v3/events/search?location.longitude=${ longitude }&location.latitude=${ latitude }`;
 
     return superagent.get(eventURL)
