@@ -42,7 +42,8 @@ function getLocation(request, response) {
 
 function getWeather(request, response) {
   try {
-    const query = request.query.data; 
+    let latitude = request.query.data.latitude;
+    let longitude = request.query.data.longitude;
     let weatherURL = `https://api.darksky.net/forecast/${ process.env.WEATHER_API_KEY }/${ latitude },${ longitude }`;
 
     let weatherObjects = weatherData.daily.data.map((day) => new Weather(day));
