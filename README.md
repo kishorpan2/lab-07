@@ -49,3 +49,13 @@ Finish time: 2:40pm
 
 Actual time needed to complete: 40 minutes
 
+
+Number and name of feature: Feature 4: Events
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 2:45pm
+
+Finish time: 2:30pm
+
+Actual time needed to complete: 45 minutes

@@ -20,7 +20,7 @@ app.use(cors());
  * Create Routes
  */
 app.get('/location', getLocation);
-// app.get('/weather', getWeather);
+app.get('/weather', getWeather);
 app.get('/events', getEvents);
 
 
@@ -33,7 +33,7 @@ function getLocation(request, response) {
     const query = request.query.data;
     let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${ query }&key=${ process.env.GEOCODE_API_KEY }`;
 
-    superagent.get(geocodeURL)
+    return superagent.get(geocodeURL)
       .end((err, apiResponse) => response.send(new Location(query, apiResponse.body.results[0])));
 
   } catch (error) {
@@ -44,12 +44,16 @@ function getLocation(request, response) {
 
 function getWeather(request, response) {
   try {
+    console.log(request.query.data);
     let latitude = request.query.data.latitude;
     let longitude = request.query.data.longitude;
     let weatherURL = `https://api.darksky.net/forecast/${process.env.WEATHER_API_KEY}/${longitude},${latitude}`;
 
-    superagent.get(weatherURL)
-      .end((err, apiResponse) => response.send(apiResponse.body.daily.data.map((day) => new Weather(day))));
+    return superagent.get(weatherURL)
+      .end((err, apiResponse) => {
+        console.log(apiResponse.body.daily);
+        // response.send(apiResponse.body.daily.data.map((day) => new Weather(day)))
+      });
 
   } catch(error) { 
     console.log(error);
@@ -59,7 +63,6 @@ function getWeather(request, response) {
 
 function getEvents (request, response) {
   try {
-    console.log(request.query.data);
     let latitude = request.query.data.latitude;
     let longitude = request.query.data.longitude;
     let eventURL = `https://www.eventbriteapi.com/v3/events/search?location.longitude=${ longitude }&location.latitude=${ latitude }&location.within=25km&expand=venue`;
@@ -67,7 +70,6 @@ function getEvents (request, response) {
     return superagent.get(eventURL)
       .set('Authorization', `Bearer ${ process.env.EVENTBRITE_API_KEY }`)
       .end((err, apiResponse) => {
-        console.log(apiResponse.body.events);
         response.send(apiResponse.body.events.map((event) => new Event(event)));
       });
 
