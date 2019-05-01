@@ -67,8 +67,8 @@ function getEvents (request, response) {
     return superagent.get(eventURL)
       .set('Authorization', `Bearer ${ process.env.EVENTBRITE_API_KEY }`)
       .end((err, apiResponse) => {
-        console.log(apiResponse.body);
-        response.send(apiResponse.body.events.map((event) => new Event(event)));
+        console.log(apiResponse.body.events);
+        // response.send(apiResponse.body.events.map((event) => new Event(event)));
       });
 
   } catch(error) {
@@ -93,6 +93,12 @@ function Weather(day) {
   this.time = new Date(day.time).toDateString();
 }
 
+function Event(event) {
+  this.link = event.link;
+  this.name = event.name;
+  this.event_date = new Date(event.start.local).toDateString();
+  this.summary = event.summary;
+}
 
 
 app.listen(port,() => console.log(`Listening on port ${port}`));
