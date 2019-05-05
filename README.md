@@ -1,11 +1,61 @@
-# lab-07
-Using API 
+# Project Name
+
+**Author**: 
+> Kishor Pandey
+> Charles Clemens
+
+**Version**: 1.0.0 
+
+## Overview
+Implement APIs to City Explorer.
+
+## Getting Started
+Deploy the backend then link it to the front end.
+
+## Architecture
+
+
+## Change Log
+
 Number and name of feature: Feature 1 Data formatting
 
 Estimate of time needed to complete: 40 mins
 
-Start time: 9:38 am
+Start time: 9:30 am
 
-Finish time: _____
+Finish time: 10:15 am
 
-Actual time needed to complete: _____
+Actual time needed to complete: 45 minutes
+
+
+Number and name of feature: Feature 2 Location
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 10:30 am
+
+Finish time: 1pm
+
+Actual time needed to complete: 2.5 hours
+
+
+Number and name of feature: Feature 3 Weather
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 2pm
+
+Finish time: 2:40pm
+
+Actual time needed to complete: 40 minutes
+
+
+Number and name of feature: Feature 4: Events
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 2:45pm
+
+Finish time: 3:30pm
+
+Actual time needed to complete: 45 minutes
